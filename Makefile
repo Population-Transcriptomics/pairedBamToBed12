@@ -25,7 +25,6 @@ export LIBS		= -lz
 export BT_ROOT  = src/utils/BamTools/
 
 SUBDIRS = $(SRC_DIR)/annotateBed \
-		  $(SRC_DIR)/pairedBamToBed12 \
 		  $(SRC_DIR)/bamToBed \
 		  $(SRC_DIR)/bamToFastq \
 		  $(SRC_DIR)/bedToBam \
@@ -54,6 +53,7 @@ SUBDIRS = $(SRC_DIR)/annotateBed \
 		  $(SRC_DIR)/nucBed \
 		  $(SRC_DIR)/pairToBed \
 		  $(SRC_DIR)/pairToPair \
+		  $(SRC_DIR)/pairedBamToBed12 \
 		  $(SRC_DIR)/randomBed \
 		  $(SRC_DIR)/regressTest \
 		  $(SRC_DIR)/reldist \

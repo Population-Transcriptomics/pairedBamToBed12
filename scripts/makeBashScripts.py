@@ -9,8 +9,7 @@ import os
 
 
 def main():
-    tool_map =  {'pairedbamtobed12': 'pairedBamToBed12',
-                 'annotate': 'annotateBed', 
+    tool_map =  {'annotate': 'annotateBed', 
                  'bamtobed': 'bamToBed',
                  'bamtofastq': 'bamToFastq', 
                  'bed12tobed6': 'bed12ToBed6', 
@@ -35,6 +34,7 @@ def main():
                  'multiinter': 'multiIntersectBed', 
                  'nuc': 'nucBed',
                  'overlap': 'getOverlap', 
+                 'pairedbamtobed12': 'pairedBamToBed12',
                  'pairtobed': 'pairToBed', 
                  'pairtopair': 'pairToPair', 
                  'random': 'randomBed', 

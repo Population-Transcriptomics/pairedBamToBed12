@@ -62,6 +62,7 @@ int multibamcov_main(int argc, char* argv[]);//
 int multiintersect_main(int argc, char* argv[]);//
 int nek_sandbox1_main(int argc, char* argv[]);//
 int nuc_main(int argc, char* argv[]);//
+int pairedbamtobed12_main(int argc, char* argv[]); //
 int pairtobed_main(int argc, char* argv[]);//
 int pairtopair_main(int argc, char* argv[]);//
 int random_main(int argc, char* argv[]); //
@@ -75,7 +76,6 @@ int tagbam_main(int argc, char* argv[]);//
 int unionbedgraphs_main(int argc, char* argv[]);//
 int window_main(int argc, char* argv[]); //
 int windowmaker_main(int argc, char* argv[]); //
-int pairedbamtobed12_main(int argc, char* argv[]); //
 int bedtools_help(void);
 int bedtools_faq(void);
 
@@ -116,10 +116,10 @@ int main(int argc, char *argv[])
     // format conversion tools
     else if (sub_cmd == "bamtobed")    return bamtobed_main(argc-1, argv+1);
     else if (sub_cmd == "bedtobam")    return bedtobam_main(argc-1, argv+1);
-    else if (sub_cmd == "pairedbamtobed12")    return pairedbamtobed12_main(argc-1, argv+1);
     else if (sub_cmd == "bamtofastq")  return bamtofastq_main(argc-1, argv+1);
     else if (sub_cmd == "bedpetobam")  return bedpetobam_main(argc-1, argv+1);
     else if (sub_cmd == "bed12tobed6") return bed12tobed6_main(argc-1, argv+1);
+    else if (sub_cmd == "pairedbamtobed12")    return pairedbamtobed12_main(argc-1, argv+1);
 
     // BAM-specific tools
     else if (sub_cmd == "multicov")    return multibamcov_main(argc-1, argv+1);
