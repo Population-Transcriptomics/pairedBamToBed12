@@ -3,7 +3,7 @@
 ###############
 *pairedbamtobed12*
 ###############
-``bedtools pairedbamtobed12`` Converts 'properly paired' BAM alignments to BED12 format.
+``bedtools pairedbamtobed12`` converts 'properly paired' BAM alignments to BED12 format.
 Typically producing a 2 blocks BED12 entry for each 'properly paired' BAM pair
 Additional blocks are produced when an alignment contains long deletion (CIGAR N-op).
 The BAM input file must be grouped/sorted by query name (not alignment position). 
