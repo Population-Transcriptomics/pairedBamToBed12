@@ -61,7 +61,7 @@ thick part indicates where is the contribution of Read 1.
 
   $ bedtools pairedbamtobed12 -i 1proper-pair.bam 
   chr1	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162
-  
+
 ==========================================================================
 Usage with transcriptome libraries
 ==========================================================================
@@ -74,14 +74,14 @@ are we paired-end directional libraries of random-primed 5′ cDNAs.  The BED12
 files are used to assemble *CAGEscan clusters* that combine all the pairs where
 the 5′ end is in the same transcript start site peak, thus providing approximative
 rudimentary transcript models for each peak.  A typical analysis can be found in
-`Kratz *et al.*, 2014`_.
+`Kratz et al., 2014`_.
 
 This BED12 format is also supported in RIKEN's Zenbu_ genome browser, where one
 can load data in this format and visualise it either as genome intervals or as
 expression histograms.
 
 .. _CAGEscan:               http://dx.doi.org/10.1038/nmeth.1470
-.. _`Kratz *et al.*, 2014`: http://dx.doi.org/10.1101/gr.164095.113
+.. _`Kratz et al., 2014`: http://dx.doi.org/10.1101/gr.164095.113
 .. _Zenbu:                  http://fantom.gsc.riken.jp/zenbu/
 
 ==========================================================================
