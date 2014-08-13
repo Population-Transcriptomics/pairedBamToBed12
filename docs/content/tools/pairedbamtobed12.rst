@@ -3,8 +3,8 @@
 ###############
 *pairedbamtobed12*
 ###############
-``bedtools pairedbamtobed12`` converts 'properly paired' BAM alignments to BED12 format.
-Typically producing a 2 blocks BED12 entry for each 'properly paired' BAM pair
+``bedtools pairedbamtobed12`` converts *properly paired* BAM alignments to BED12 format.
+Typically producing a 2 blocks BED12 entry for each *properly paired* BAM pair
 Additional blocks are produced when an alignment contains long deletion (CIGAR N-op).
 The BAM input file must be grouped/sorted by query name (not alignment position). 
 
@@ -41,7 +41,7 @@ Option          Description
 ==========================================================================
 Default behavior
 ==========================================================================
-by default it processes a ‘properly paired’ pair of reads 
+By default it processes a *properly paired* pair of reads 
 (mapped on the same chromosome) into a single BED12 line, where the start
 position is the 5′ end of Read 1 and the stop position is the 3′ end of Read 2.
 The BED12 blocks are used to indicate positions where the reads match, and the
