@@ -5,6 +5,11 @@
   CLST-DGT RIKEN Yokohama
   nbertin@gsc.riken.jp, mickael.mendez@riken.jp
 
+  This work was supported by a research grant from the Japanese Ministry of
+  Education, Culture, Sports, Science and Technology (MEXT) for the RIKEN Omics
+  Science Center to Yoshihide Hayashizaki, and by a research grant from MEXT to
+  the RIKEN Center for Life Science Technologies.
+
   directly inspired from 
      bamToBed.cpp
      (c) 2009 - Aaron Quinlan
