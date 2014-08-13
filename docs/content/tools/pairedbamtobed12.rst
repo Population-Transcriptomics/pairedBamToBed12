@@ -1,4 +1,4 @@
-.. _pairedbamtobed1212:
+.. _pairedbamtobed12:
 
 ###############
 *pairedbamtobed12*
