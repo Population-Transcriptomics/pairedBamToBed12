@@ -130,7 +130,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t7...\c"
 echo \
-"chr1	0	99	proper_pair_minus_strand	80	-	0	30	255,0,0	2	30,30	0,69" > exp
+"chr1	0	99	proper_pair_minus_strand	80	-	69	99	255,0,0	2	30,30	0,69" > exp
 $BT pairedbamtobed12 -i proper_pair_minus_strand.bam > obs
 check obs exp
 rm obs exp
