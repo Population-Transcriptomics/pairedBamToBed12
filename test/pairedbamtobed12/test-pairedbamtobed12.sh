@@ -119,7 +119,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t6...\c"
 echo \
-"chr1	0	99	proper_pair_plus_strand	80	-	0	30	255,0,0	2	30,30	0,69" > exp
+"chr1	0	99	proper_pair_plus_strand	80	+	0	30	255,0,0	2	30,30	0,69" > exp
 $BT pairedbamtobed12 -i proper_pair_plus_strand.bam > obs
 check obs exp
 rm obs exp
@@ -130,7 +130,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t7...\c"
 echo \
-"chr1	0	99	proper_pair_minus_strand	80	+	0	30	255,0,0	2	30,30	0,69" > exp
+"chr1	0	99	proper_pair_minus_strand	80	-	0	30	255,0,0	2	30,30	0,69" > exp
 $BT pairedbamtobed12 -i proper_pair_minus_strand.bam > obs
 check obs exp
 rm obs exp
@@ -141,7 +141,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t8...\c"
 echo \
-"chr1	0	99	proper_pair_spliced	80	-	0	40	255,0,0	3	20,10,30	0,30,69" > exp
+"chr1	0	99	proper_pair_spliced	80	+	0	40	255,0,0	3	20,10,30	0,30,69" > exp
 $BT pairedbamtobed12 -i proper_pair_spliced.bam > obs
 check obs exp
 rm obs exp
@@ -152,7 +152,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t9...\c"
 echo \
-"chr1	0	49	proper_pair_overlap	80	-	0	30	255,0,0	2	30,30	0,19" > exp
+"chr1	0	49	proper_pair_overlap	80	+	0	30	255,0,0	2	30,30	0,19" > exp
 $BT pairedbamtobed12 -i proper_pair_overlap.bam > obs
 check obs exp
 rm obs exp
