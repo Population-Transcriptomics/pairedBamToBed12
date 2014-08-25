@@ -70,7 +70,7 @@ In transcriptome analysis, the BED12 entries produced by ``pairedbamtobed12``
 represent the minimal information about a cDNA that was given by a read pair.
 
 ``pairedbamtobed12`` was created for the analysis of CAGEscan_ libraries, which
-are we paired-end directional libraries of random-primed 5′ cDNAs.  The BED12
+are paired-end directional libraries of random-primed 5′ cDNAs.  The BED12
 files are used to assemble *CAGEscan clusters* that combine all the pairs where
 the 5′ end is in the same transcript start site peak, thus providing approximative
 rudimentary transcript models for each peak.  A typical analysis can be found in

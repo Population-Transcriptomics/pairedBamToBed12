@@ -164,7 +164,8 @@ void pairedbamtobed12_help(void) {
     
     cerr << "\t-qual\t"    << "The minimum (inclusive) mapQ sum for reporting the paired BAM into a BED12." << endl;
     cerr                   << "\t\tDefault is (0)." << endl << endl;
-
+    
+    cerr << "\t-x\t"       << "Optional filename where unprocessed mapped pairs can be stored." << endl << endl;
     
     // end the program here
     exit(1);
