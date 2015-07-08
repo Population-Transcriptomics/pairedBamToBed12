@@ -26,7 +26,6 @@
 #include "api/BamAux.h"
 #include "BlockedIntervals.h"
 #include "bedFile.h"
-#include "version.h"
 using namespace BamTools;
 
 #include <vector>
@@ -147,7 +146,6 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
 void pairedbamtobed12_help(void) {
 
     cerr << "\nTool:    bedtools pairedbamtobed12 (aka pairedBamToBed12)" << endl;
-    cerr << "Version: " << VERSION << "\n";
     cerr << "Summary: Converts 'properly paired' BAM alignments to BED12 format." << endl;
     cerr << "         Typically producing a 2 blocks BED12 entry for each 'properly paired' BAM pair." << endl;
     cerr << "         Additional blocks are produced when an alignment contains long deletion (CIGAR N-op)." << endl;
