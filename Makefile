@@ -2,6 +2,10 @@
 # ==========================
 # BEDTools Makefile
 # (c) 2009 Aaron Quinlan
+#
+# Modified in 2015 by Charles Plessy <plessy@riken.jp> to
+# only build pairedBamToBed12
+#
 # ==========================
 
 SHELL := /bin/bash -e
@@ -96,14 +100,8 @@ BUILT_OBJECTS = $(OBJ_DIR)/*.o
 all: print_banner $(OBJ_DIR) $(BIN_DIR) autoversion $(UTIL_SUBDIRS) $(SUBDIRS)
 	@echo "- Building main bedtools binary."
 	@$(CXX) $(CXXFLAGS) -c src/bedtools.cpp -o obj/bedtools.o -I$(UTIL_DIR)/version/
-	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/bedtools $(BUILT_OBJECTS) -L$(UTIL_DIR)/BamTools/lib/ -lbamtools $(LIBS) $(LDFLAGS)
+	@$(CXX) $(CXXFLAGS) -o $(BIN_DIR)/pairedBamToBed12 $(BUILT_OBJECTS) -L$(UTIL_DIR)/BamTools/lib/ -lbamtools $(LIBS) $(LDFLAGS)
 	@echo "done."
-	
-	@echo "- Creating executables for old CLI."
-	@python scripts/makeBashScripts.py
-	@chmod +x bin/*
-	@echo "done."
-	
 
 .PHONY: all
 
