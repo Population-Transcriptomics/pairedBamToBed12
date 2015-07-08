@@ -115,5 +115,5 @@ The tool ``pairedBamToBed12`` is copyright 2014,2015 RIKEN.  It uses
 `bedtools`_ 2.21.0 as a framework.  Bedtools is copyright Aaron Quinlan and
 others.
 
-.. `GNU General Public License version 2`: LICENSE
-.. `bedtools`: https://github.com/arq5x/bedtools2
+.. _`GNU General Public License version 2`: LICENSE
+.. _bedtools: https://github.com/arq5x/bedtools2
