@@ -28,48 +28,7 @@ export CXXFLAGS = -Wall -O2 -D_FILE_OFFSET_BITS=64 -fPIC $(INCLUDE)
 export LIBS		= -lz
 export BT_ROOT  = src/utils/BamTools/
 
-SUBDIRS = $(SRC_DIR)/annotateBed \
-		  $(SRC_DIR)/bamToBed \
-		  $(SRC_DIR)/bamToFastq \
-		  $(SRC_DIR)/bedToBam \
-		  $(SRC_DIR)/bedpeToBam \
-		  $(SRC_DIR)/bedToIgv \
-		  $(SRC_DIR)/bed12ToBed6 \
-		  $(SRC_DIR)/closestBed \
-		  $(SRC_DIR)/clusterBed \
-		  $(SRC_DIR)/complementBed \
-		  $(SRC_DIR)/coverageBed \
-		  $(SRC_DIR)/expand \
-		  $(SRC_DIR)/fastaFromBed \
-		  $(SRC_DIR)/flankBed \
-		  $(SRC_DIR)/genomeCoverageBed \
-		  $(SRC_DIR)/getOverlap \
-		  $(SRC_DIR)/groupBy \
-		  $(SRC_DIR)/intersectFile \
-		  $(SRC_DIR)/jaccard \
-		  $(SRC_DIR)/linksBed \
-		  $(SRC_DIR)/maskFastaFromBed \
-		  $(SRC_DIR)/mapFile \
-		  $(SRC_DIR)/mergeFile \
-		  $(SRC_DIR)/multiBamCov \
-		  $(SRC_DIR)/multiIntersectBed \
-		   $(SRC_DIR)/nekSandbox1 \
-		  $(SRC_DIR)/nucBed \
-		  $(SRC_DIR)/pairToBed \
-		  $(SRC_DIR)/pairToPair \
-		  $(SRC_DIR)/pairedBamToBed12 \
-		  $(SRC_DIR)/randomBed \
-		  $(SRC_DIR)/regressTest \
-		  $(SRC_DIR)/reldist \
-		  $(SRC_DIR)/sampleFile \
-		  $(SRC_DIR)/shuffleBed \
-		  $(SRC_DIR)/slopBed \
-		  $(SRC_DIR)/sortBed \
-		  $(SRC_DIR)/subtractBed \
-		  $(SRC_DIR)/tagBam \
-		  $(SRC_DIR)/unionBedGraphs \
-		  $(SRC_DIR)/windowBed \
-		  $(SRC_DIR)/windowMaker
+SUBDIRS = $(SRC_DIR)/pairedBamToBed12 \
 
 UTIL_SUBDIRS =	$(SRC_DIR)/utils/bedFile \
 				$(SRC_DIR)/utils/BinTree \
