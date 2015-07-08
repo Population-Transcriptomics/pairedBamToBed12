@@ -1,128 +1,102 @@
-================================================================
-**bedtools**: *a powerful toolset for genome arithmetic*
-================================================================
+.. _pairedbamtobed12:
 
-Collectively, the **bedtools** utilities are a swiss-army knife of tools
-for a wide-range of genomics analysis tasks. The most widely-used
-tools enable *genome arithmetic*: that is, set theory on the genome.  For 
-example, **bedtools** allows one to *intersect*, *merge*, *count*, *complement*,
-and *shuffle* genomic intervals from multiple files in widely-used 
-genomic file formats such as BAM, BED, GFF/GTF, VCF. While each individual tool is designed to do a relatively simple task (e.g., 
-*intersect* two interval files), quite sophisticated analyses can be conducted
-by combining multiple bedtools operations on the UNIX command line.
+###############
+*pairedBamToBed12*
+###############
+``pairedBamToBed12`` converts *properly paired* BAM alignments to
+BED12 format.  Typical *proper pairs* will be represented by a 2 blocks BED12
+entry.  Additional blocks are produced when an alignment contains long deletion
+(CIGAR N-op).  Thickness indicates the first read of the pair.  The BAM input
+file must be grouped/sorted by query name (not alignment position). 
 
-==========================
-Interesting usage examples
-==========================
-To whet your appetite, here are a few examples of ways in which bedtools has been used for genome research. If you have interesteding examples, please send them our way and we will add them to the list.
+==========================================================================
+Usage and option summary
+==========================================================================
+**Usage**:
+::
 
-
-- `Coverage analysis for targeted DNA capture <http://gettinggeneticsdone.blogspot.com/2014/03/visualize-coverage-exome-targeted-ngs-bedtools.html>`_. Thanks to `Stephen Turner <https://twitter.com/genetics_blog>`_.
-- `Measuring similarity of DNase hypersensitivity among many cell types <https://github.com/arq5x/bedtools-protocols/blob/master/bedtools.md#bp6--measuring-dataset-similarity>`_
-- `Extracting promoter sequences from a genome <http://www.biostars.org/p/17162/>`_
-- `Comparing intersections among many genome interval files <http://www.biostars.org/p/13516/>`_
-- `RNA-seq coverage analysis <http://www.cureffi.org/2013/11/18/an-mrna-seq-pipeline-using-gsnap-samtools-cufflinks-and-bedtools/>`_. Thanks to `Erik Minikel <https://twitter.com/cureffi>`_.
-- `Identifying targeted regions that lack coverage <https://twitter.com/aaronquinlan/status/421786507511205888>`_. Thanks to `Brent Pedersen <https://twitter.com/brent_p>`_.
-- `Calculating GC content for CCDS exons <http://www.biostars.org/p/47047/>`_.
-- `Making a master table of ChromHMM tracks for multiple cell types <https://gist.github.com/arq5x/3138599>`_.
+    pairedBamToBed12 [OPTIONS] -i <BAM>
 
 
-=================
-Table of contents
-=================
-.. toctree::
-   :maxdepth: 1
 
-   content/overview
-   content/installation
-   content/quick-start
-   content/general-usage
-   content/history
-   content/bedtools-suite
-   content/example-usage
-   content/advanced-usage
-   content/tips-and-tricks
-   content/faq
-   content/related-tools
-   
+.. tabularcolumns:: |p{4.5cm}|p{8.5cm}|
 
-=================
-Performance
-=================
-As of version 2.18, ``bedtools`` is substantially more scalable thanks to improvements we have made in the algorithm used to process datasets that are pre-sorted
-by chromosome and start position. As you can see in the plots below, the speed and memory consumption scale nicely
-with sorted data as compared to the poor scaling for unsorted data. The current version of bedtools intersect is as fast as (or slightly faster) than the ``bedops`` package's ``bedmap`` which uses a similar algorithm for sorted data.  The plots below represent counting the number of intersecting alignments from exome capture BAM files against CCDS exons.
-The alignments have been converted to BED to facilitate comparisons to ``bedops``. We compare to the bedmap ``--ec`` option because similar error checking is enforced by ``bedtools``.
+=============   ================================================================
+Option          Description
+=============   ================================================================
+**-dblock**     Triggers the creation of a new block when an alignment contains
+                short deletion from reference (CIGAR D-op).
+**-color**      An R,G,B string for the color used with BED12 format. Default 
+                is (255,0,0).
+**-qual**       The minimum (inclusive) mapQ sum for reporting
+                the paired BAM into a BED12. Default is 0.
+**-x**          Optional filename where unprocessed mapped pairs can be stored.
+=============   ================================================================
 
-Note: bedtools could not complete when using 100 million alignments and the R-Tree algorithm used for unsorted data owing to a lack of memory.
 
-.. image:: content/images/speed-comparo.png 
-    :width: 300pt 
-.. image:: content/images/memory-comparo.png 
-    :width: 300pt 
+==========================================================================
+Default behavior
+==========================================================================
+By default it processes a *properly paired* pair of reads into a single BED12
+line, where the start and end positions are the 5′ end of Read 1 and the 3′ end
+of Read 2.  The BED12 blocks are used to indicate positions where the reads
+match, and the thick part indicates where is the contribution of Read 1.  The
+relative orientation of the mate pairs must be forward/reverse (which is the
+standard in most libraries prepared for the Illumina platform). 
 
-Commands used:
+.. note::
+    
+    The BAM file must be sorted by read name.
+
+.. note::
+    Reads that are not followed by their mate or not properly paired will be skipped.
 
 .. code-block:: bash
 
-    # bedtools sorted
-    $ bedtools intersect \
-               -a ccds.exons.bed -b aln.bam.bed \
-               -c \
-               -sorted
+  $ pairedBamToBed12 -i 1proper-pair.bam 
+  chr1	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162
 
-    # bedtools unsorted
-    $ bedtools intersect \
-               -a ccds.exons.bed -b aln.bam.bed \
-               -c
+==========================================================================
+Usage with transcriptome libraries
+==========================================================================
 
-    # bedmap (without error checking)
-    $ bedmap --echo --count --bp-ovr 1 \
-             ccds.exons.bed aln.bam.bed
+In transcriptome analysis, the BED12 entries produced by ``pairedBamToBed12``
+represent the minimal information about a cDNA that was given by a read pair.
 
-    # bedmap (no error checking)
-    $ bedmap --ec --echo --count --bp-ovr 1 \
-             ccds.exons.bed aln.bam.bed
+``pairedBamToBed12`` was created for the analysis of CAGEscan_ libraries, which
+are paired-end directional libraries of random-primed 5′ cDNAs.  The BED12
+files are used to assemble *CAGEscan clusters* that combine all the pairs where
+the 5′ end is in the same transcript start site peak, thus providing approximate
+rudimentary transcript models for each peak.  A typical analysis can be found in
+`Kratz et al., 2014`_.
 
-
-
-=================
-Brief example
-=================
-Let's imagine you have a BED file of ChiP-seq peaks from two different
-experiments. You want to identify peaks that were observed in *both* experiments
-(requiring 50% reciprocal overlap) and for those peaks, you want to find to 
-find the closest, non-overlapping gene. Such an analysis could be conducted 
-with two, relatively simple bedtools commands.
-
-.. code-block:: bash
-
-    # intersect the peaks from both experiments.
-    # -f 0.50 combined with -r requires 50% reciprocal overlap between the 
-    # peaks from each experiment.
-    $ bedtools intersect -a exp1.bed -b exp2.bed -f 0.50 -r > both.bed
+This BED12 format is also supported in RIKEN's Zenbu_ genome browser, where one
+can load data in this format and visualise it either as genome intervals or as
+expression histograms.
     
-    # find the closest, non-overlapping gene for each interval where
-    # both experiments had a peak
-    # -io ignores overlapping intervals and returns only the closest, 
-    # non-overlapping interval (in this case, genes)
-    $ bedtools closest -a both.bed -b genes.bed -io > both.nearest.genes.txt
+.. note::
+    BWA has a bug that will set the *properly paired* flag for reads where one
+    mate is aligned very near the end of a chromosome and the other is aligned
+    very near the beginning of the next chromosome, when the ``-a`` option of
+    ``sampe`` is large.  However, for CAGEscan, large numbers are necessary to
+    span whole gene loci.   It is therefore recommended to sanitise the output
+    of BWA with SAMtools, using its ``fixmate`` command, that corrects the
+    *properly paired* flag since version 1.0.
 
-==========
-License
-==========
-bedtools is freely available under a GNU Public License (Version 2).
+.. _CAGEscan:               http://dx.doi.org/10.1038/nmeth.1470
+.. _`Kratz et al., 2014`: http://dx.doi.org/10.1101/gr.164095.113
+.. _Zenbu:                  http://fantom.gsc.riken.jp/zenbu/
 
-=====================================
-Acknowledgments
-=====================================
+==========================================================================
+Advantages and limitations in comparison with ``bedtools bamtobed``
+==========================================================================
 
-To do.
-    
+The advantage compared to ``bedtools bamtobed -split`` is that ``pairedBamToBed12``
+reports the whole pair on a single line, and the advantage compared with
+``bedtools bamtobed -bedpe``, is that it reports spliced alignments.
 
-=================
-Mailing list
-=================
-If you have questions, requests, or bugs to report, please email the
-`bedtools mailing list <https://groups.google.com/forum/?fromgroups#!forum/bedtools-discuss>`_
+The limitation of ``pairedbamtobed12`` is that it only pertains to pairs mapped
+on the same chromosome and is therefore unfit for representing gene fusions or
+interchromosomal interactions.
+
 
