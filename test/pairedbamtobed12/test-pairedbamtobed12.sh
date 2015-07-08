@@ -1,4 +1,4 @@
-BT=${BT-../../bin/bedtools}
+BT=${BT-../../bin/pairedBamToBed12}
 
 check()
 {
@@ -42,7 +42,7 @@ samtools view -Sb bug_proper_pair_different_chrom.sam > bug_proper_pair_differen
 echo "    pairedbamtobed12.t1...\c"
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
-$BT pairedbamtobed12 -i pair-sorted.bam > obs
+$BT -i pair-sorted.bam > obs
 check obs exp
 rm obs exp
 
@@ -53,7 +53,7 @@ rm obs exp
 echo "    pairedbamtobed12.t2...\c"
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
-$BT pairedbamtobed12 -i pair-unsorted.bam > obs
+$BT -i pair-unsorted.bam > obs
 check obs exp
 rm obs exp
 
@@ -65,7 +65,7 @@ echo "    pairedbamtobed12.t3...\c"
 echo \
 "chr4	8210431	8210761	M00528:19:000000000-A88YD:1:1101:2318:12845	120	+	8210431	8210458	255,0,0	2	27,21	0,309" > exp
 
-$BT pairedbamtobed12 -i missingmate-and-pair.bam > obs 2> /dev/null
+$BT -i missingmate-and-pair.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
@@ -76,7 +76,7 @@ rm obs exp
 echo "    pairedbamtobed12.t3.stderr...\c"
 echo \
 "*****WARNING: Query M00528:19:000000000-A88YD:1:1101:2241:12366 is not followed by his mate in your BAM file. Skipping" > exp
-$BT pairedbamtobed12 -i missingmate-and-pair.bam > /dev/null 2> obs
+$BT -i missingmate-and-pair.bam > /dev/null 2> obs
 check obs exp
 rm obs exp
 
@@ -87,7 +87,7 @@ rm obs exp
 echo "    pairedbamtobed12.t4...\c"
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
-$BT pairedbamtobed12 -i pair-and-missingmate.bam > obs 2> /dev/null
+$BT -i pair-and-missingmate.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
@@ -98,7 +98,7 @@ rm obs exp
 echo "    pairedbamtobed12.t4.stderr...\c"
 echo \
 "*****WARNING: Query M00528:19:000000000-A88YD:1:1101:2318:12845 is the last read and has no mate. Skip and exit. " > exp
-$BT pairedbamtobed12 -i pair-and-missingmate.bam > /dev/null 2> obs
+$BT -i pair-and-missingmate.bam > /dev/null 2> obs
 check obs exp
 rm obs exp
 #exit
@@ -109,7 +109,7 @@ rm obs exp
 echo "    pairedbamtobed12.t5...\c"
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
-$BT pairedbamtobed12 -i pair-with-name-containing-slash.bam > obs
+$BT -i pair-with-name-containing-slash.bam > obs
 check obs exp
 rm obs exp
 
@@ -120,7 +120,7 @@ rm obs exp
 echo "    pairedbamtobed12.t6...\c"
 echo \
 "chr1	0	99	proper_pair_plus_strand	80	+	0	30	255,0,0	2	30,30	0,69" > exp
-$BT pairedbamtobed12 -i proper_pair_plus_strand.bam > obs
+$BT -i proper_pair_plus_strand.bam > obs
 check obs exp
 rm obs exp
 
@@ -131,7 +131,7 @@ rm obs exp
 echo "    pairedbamtobed12.t7...\c"
 echo \
 "chr1	0	99	proper_pair_minus_strand	80	-	69	99	255,0,0	2	30,30	0,69" > exp
-$BT pairedbamtobed12 -i proper_pair_minus_strand.bam > obs
+$BT -i proper_pair_minus_strand.bam > obs
 check obs exp
 rm obs exp
 
@@ -142,7 +142,7 @@ rm obs exp
 echo "    pairedbamtobed12.t8...\c"
 echo \
 "chr1	0	99	proper_pair_spliced	80	+	0	40	255,0,0	3	20,10,30	0,30,69" > exp
-$BT pairedbamtobed12 -i proper_pair_spliced.bam > obs
+$BT -i proper_pair_spliced.bam > obs
 check obs exp
 rm obs exp
 
@@ -153,7 +153,7 @@ rm obs exp
 echo "    pairedbamtobed12.t9...\c"
 echo \
 "chr1	0	49	proper_pair_overlap	80	+	0	30	255,0,0	2	30,30	0,19" > exp
-$BT pairedbamtobed12 -i proper_pair_overlap.bam > obs
+$BT -i proper_pair_overlap.bam > obs
 check obs exp
 rm obs exp
 
@@ -163,7 +163,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t10...\c"
 touch exp
-$BT pairedbamtobed12 -i proper_pair_bad_mapq.bam -qual 11 > obs
+$BT -i proper_pair_bad_mapq.bam -qual 11 > obs
 check obs exp
 rm obs exp
 
@@ -173,7 +173,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t11...\c"
 touch exp
-$BT pairedbamtobed12 -i not_proper_pair.bam > obs 2> /dev/null
+$BT -i not_proper_pair.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
@@ -184,7 +184,7 @@ echo "    pairedbamtobed12.t11.stderr...\c"
 echo \
 "*****WARNING: Query not_proper_pair is not followed by his mate in your BAM file. Skipping
 *****WARNING: Query not_proper_pair is the last read and has no mate. Skip and exit. " > exp
-$BT pairedbamtobed12 -i not_proper_pair.bam > /dev/null 2> obs 
+$BT -i not_proper_pair.bam > /dev/null 2> obs 
 check obs exp
 rm obs exp
 
@@ -193,7 +193,7 @@ rm obs exp
 ##################################################################
 echo "    pairedbamtobed12.t12...\c"
 touch exp
-$BT pairedbamtobed12 -i bug_proper_pair_different_chrom.bam > obs 2> /dev/null
+$BT -i bug_proper_pair_different_chrom.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
@@ -204,7 +204,7 @@ echo "    pairedbamtobed12.t12.stderr...\c"
 echo \
 "*****WARNING: Query bug_proper_pair_different_chrom is not on the same chromosome than his mate. Skipping
 *****WARNING: Query bug_proper_pair_different_chrom is the last read and has no mate. Skip and exit. " > exp
-$BT pairedbamtobed12 -i bug_proper_pair_different_chrom.bam > /dev/null 2> obs
+$BT -i bug_proper_pair_different_chrom.bam > /dev/null 2> obs
 check obs exp
 rm obs exp
 
