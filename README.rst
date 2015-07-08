@@ -109,7 +109,7 @@ interchromosomal interactions.
 Copyright and license
 ==========================================================================
 
-``pairedBamToBed12`` is distrubuted under the `GNU General Public License version 2`_
+``pairedBamToBed12`` is distrubuted under the `GNU General Public License version 2`_.
 
 The tool ``pairedBamToBed12`` is copyright 2014,2015 RIKEN.  It uses
 `bedtools`_ 2.21.0 as a framework.  Bedtools is copyright Aaron Quinlan and
