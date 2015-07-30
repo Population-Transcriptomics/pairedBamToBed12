@@ -80,7 +80,7 @@ This BED12 format is also supported in RIKEN's Zenbu_ genome browser, where one
 can load data in this format and visualise it either as genome intervals or as
 expression histograms.
     
-.. note::
+.. NOTE::
     BWA has a bug that will set the *properly paired* flag for reads where one
     mate is aligned very near the end of a chromosome and the other is aligned
     very near the beginning of the next chromosome, when the ``-a`` option of
