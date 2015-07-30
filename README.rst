@@ -2,6 +2,9 @@
 *pairedBamToBed12*
 ###############
 
+.. image:: https://travis-ci.org/Population-Transcriptomics/pairedBamToBed12.svg?branch=pairedbamtobed12
+    :target: https://travis-ci.org/Population-Transcriptomics/pairedBamToBed12
+
 ``pairedBamToBed12`` converts *properly paired* BAM alignments to
 BED12 format.  Typical *proper pairs* will be represented by a 2 blocks BED12
 entry.  Additional blocks are produced when an alignment contains long deletion
