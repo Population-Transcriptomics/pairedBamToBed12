@@ -106,14 +106,19 @@ on the same chromosome and is therefore unfit for representing gene fusions or
 interchromosomal interactions.
 
 ==========================================================================
-Copyright and license
+Copyright, authorship and license
 ==========================================================================
 
 ``pairedBamToBed12`` is distrubuted under the `GNU General Public License version 2`_.
 
-The tool ``pairedBamToBed12`` is copyright 2014,2015 RIKEN.  It uses
-`bedtools`_ 2.21.0 as a framework.  Bedtools is copyright Aaron Quinlan and
-others.
+The tool ``pairedBamToBed12`` is copyright 2013~2015 RIKEN.  It was originally
+written by Nicolas Bertin as an addition to `Bedtools`_ 2.11.1.  It was then
+ported to Bedtools 2.21.0 by Mickaël Mendez, and then finally forked from the
+Bedtools source as a stand-alone program by Charles Plessy.  The documentation
+was written by NB, MM and CP, and the regression tests were implemented by MM
+and CP.
+
+Bedtools is copyright Aaron Quinlan and others.
 
 .. _`GNU General Public License version 2`: LICENSE
-.. _bedtools: https://github.com/arq5x/bedtools2
+.. _Bedtools: https://github.com/arq5x/bedtools2
