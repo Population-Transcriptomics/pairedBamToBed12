@@ -9,7 +9,13 @@
 BED12 format.  Typical *proper pairs* will be represented by a 2 blocks BED12
 entry.  Additional blocks are produced when an alignment contains long deletion
 (CIGAR N-op).  Thickness indicates the first read of the pair.  The BAM input
-file must be grouped/sorted by query name (not alignment position). 
+file must be grouped/sorted by query name (not alignment position).
+
+.. code-block::
+
+    Read 1:   >>>>>>>>>>>>
+    Read 2:                     <<<<<<<<<<<<<-----<<<<<<<
+    The pair: >>>>>>>>>>>>------>>>>>>>>>>>>>----->>>>>>>
 
 ==========================================================================
 Installation
