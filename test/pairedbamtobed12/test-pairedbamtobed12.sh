@@ -29,11 +29,10 @@ samtools view -Sb bug_proper_pair_different_chrom.sam > bug_proper_pair_differen
 samtools view -Sb proper_pair_nsep-option.sam > proper_pair_nsep-option.bam 2> /dev/null
 
 
-
 ##################################################################
 #  Test paired reads when sorted by name and position
 ##################################################################
-echo "    pairedbamtobed12.t1...\c"
+printf "Test  1: paired reads when sorted by name and position...\n"
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
 $BT -i pair-sorted.bam > obs
@@ -44,7 +43,7 @@ rm obs exp
 ##################################################################
 #  Test paired reads when sorted by name and not by position
 ##################################################################
-echo "    pairedbamtobed12.t2...\c"
+echo "Test  2: paired reads when sorted by name and not by position..."
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
 $BT -i pair-unsorted.bam > obs
@@ -55,7 +54,7 @@ rm obs exp
 ##################################################################
 #  Test skipping missing mate first read
 ##################################################################
-echo "    pairedbamtobed12.t3...\c"
+echo "Test  3: skipping missing mate first read..."
 echo \
 "chr4	8210431	8210761	M00528:19:000000000-A88YD:1:1101:2318:12845	120	+	8210431	8210458	255,0,0	2	27,21	0,309" > exp
 
@@ -67,7 +66,7 @@ rm obs exp
 ##################################################################
 #  Test skipping missing mate first read (test stderr)
 ##################################################################
-echo "    pairedbamtobed12.t3.stderr...\c"
+echo "Test  4: skipping missing mate first read (test stderr)..."
 echo \
 "*****WARNING: Query M00528:19:000000000-A88YD:1:1101:2241:12366 is not followed by his mate in your BAM file. Skipping" > exp
 $BT -i missingmate-and-pair.bam > /dev/null 2> obs
@@ -78,7 +77,7 @@ rm obs exp
 ##################################################################
 #  Test skipping missing mate last read
 ##################################################################
-echo "    pairedbamtobed12.t4...\c"
+echo "Test  5: skipping missing mate last read..."
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
 $BT -i pair-and-missingmate.bam > obs 2> /dev/null
@@ -89,7 +88,7 @@ rm obs exp
 ##################################################################
 #  Test skipping missing mate last read (stderr)
 ##################################################################
-echo "    pairedbamtobed12.t4.stderr...\c"
+echo "Test  6: skipping missing mate last read (stderr)..."
 echo \
 "*****WARNING: Query M00528:19:000000000-A88YD:1:1101:2318:12845 is the last read and has no mate. Skip and exit. " > exp
 $BT -i pair-and-missingmate.bam > /dev/null 2> obs
@@ -97,10 +96,11 @@ check obs exp
 rm obs exp
 #exit
 
+
 ##################################################################
 #  Test paired reads with name ending with '/*'
 ##################################################################
-echo "    pairedbamtobed12.t5...\c"
+echo "Test  7: paired reads with name ending with '/*'..."
 echo \
 "chr14	50053297	50053480	M00528:19:000000000-A88YD:1:1101:2241:12366	0	+	50053297	50053324	255,0,0	2	27,21	0,162" > exp
 $BT -i pair-with-name-containing-slash.bam > obs
@@ -111,7 +111,7 @@ rm obs exp
 ##################################################################
 #  Test proper pair on the plus strand
 ##################################################################
-echo "    pairedbamtobed12.t6...\c"
+echo "Test  8: proper pair on the plus strand..."
 echo \
 "chr1	0	99	proper_pair_plus_strand	80	+	0	30	255,0,0	2	30,30	0,69" > exp
 $BT -i proper_pair_plus_strand.bam > obs
@@ -122,7 +122,7 @@ rm obs exp
 ##################################################################
 #  Test proper pair on the minus strand
 ##################################################################
-echo "    pairedbamtobed12.t7...\c"
+echo "Test  9: proper pair on the minus strand..."
 echo \
 "chr1	0	99	proper_pair_minus_strand	80	-	69	99	255,0,0	2	30,30	0,69" > exp
 $BT -i proper_pair_minus_strand.bam > obs
@@ -133,7 +133,7 @@ rm obs exp
 ##################################################################
 #  Test proper pair spliced
 ##################################################################
-echo "    pairedbamtobed12.t8...\c"
+echo "Test 10: proper pair spliced..."
 echo \
 "chr1	0	99	proper_pair_spliced	80	+	0	40	255,0,0	3	20,10,30	0,30,69" > exp
 $BT -i proper_pair_spliced.bam > obs
@@ -144,7 +144,7 @@ rm obs exp
 ##################################################################
 #  Test proper pair overlap
 ##################################################################
-echo "    pairedbamtobed12.t9...\c"
+echo "Test 11: proper pair overlap..."
 echo \
 "chr1	0	49	proper_pair_overlap	80	+	0	30	255,0,0	2	30,30	0,19" > exp
 $BT -i proper_pair_overlap.bam > obs
@@ -155,7 +155,7 @@ rm obs exp
 ##################################################################
 #  Test skipping proper pair with bad mapq when using -qual argument
 ##################################################################
-echo "    pairedbamtobed12.t10...\c"
+echo "Test 12: skipping proper pair with bad mapq when using -qual argument..."
 touch exp
 $BT -i proper_pair_bad_mapq.bam -qual 11 > obs
 check obs exp
@@ -165,16 +165,17 @@ rm obs exp
 ##################################################################
 #  Test skip not proper pair
 ##################################################################
-echo "    pairedbamtobed12.t11...\c"
+echo "Test 13: skip not proper pair..."
 touch exp
 $BT -i not_proper_pair.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
+
 ##################################################################
 #  Test skip not proper pair (stderr)
 ##################################################################
-echo "    pairedbamtobed12.t11.stderr...\c"
+echo "Test 14: skip not proper pair (stderr)..."
 echo \
 "*****WARNING: Query not_proper_pair is not followed by his mate in your BAM file. Skipping
 *****WARNING: Query not_proper_pair is the last read and has no mate. Skip and exit. " > exp
@@ -182,19 +183,21 @@ $BT -i not_proper_pair.bam > /dev/null 2> obs
 check obs exp
 rm obs exp
 
+
 ##################################################################
 #  Test skip proper when reads are on different chromosomes
 ##################################################################
-echo "    pairedbamtobed12.t12...\c"
+echo "Test 15: skip proper when reads are on different chromosomes..."
 touch exp
 $BT -i bug_proper_pair_different_chrom.bam > obs 2> /dev/null
 check obs exp
 rm obs exp
 
+
 ##################################################################
 #  Test skip proper when reads are on different chromosomes (stderr)
 ##################################################################
-echo "    pairedbamtobed12.t12.stderr...\c"
+echo "Test 16: skip proper when reads are on different chromosomes (stderr)..."
 echo \
 "*****WARNING: Query bug_proper_pair_different_chrom is not on the same chromosome than his mate. Skipping
 *****WARNING: Query bug_proper_pair_different_chrom is the last read and has no mate. Skip and exit. " > exp
@@ -206,14 +209,14 @@ rm obs exp
 ##################################################################
 #  Test -nsep option
 ##################################################################
-echo "    pairedbamtobed12.t13...\c"
+echo "Test 17: -nsep option..."
 echo \
 "chr1	0	99	proper_pair_plus_strand%%%string1	80	+	0	30	255,0,0	2	30,30	0,69" > exp
 $BT -nsep %%% -i proper_pair_nsep-option.bam > obs
 check obs exp
 rm obs exp
 
-echo "    pairedbamtobed12.t14.stderr...\c"
+echo "Test 18: -nsep option (stderr)..."
 echo \
 "*****WARNING: Query proper_pair_plus_strand%%%string1 is not followed by his mate in your BAM file. Skipping
 *****WARNING: Query proper_pair_plus_strand%%%string2 is the last read and has no mate. Skip and exit. " > exp
