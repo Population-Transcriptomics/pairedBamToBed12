@@ -26,6 +26,7 @@ samtools view -Sb proper_pair_overlap.sam > proper_pair_overlap.bam 2> /dev/null
 samtools view -Sb proper_pair_bad_mapq.sam > proper_pair_bad_mapq.bam 2> /dev/null
 samtools view -Sb not_proper_pair.sam > not_proper_pair.bam 2> /dev/null
 samtools view -Sb bug_proper_pair_different_chrom.sam > bug_proper_pair_different_chrom.bam 2> /dev/null
+samtools view -Sb proper_pair_nsep-option.sam > proper_pair_nsep-option.bam 2> /dev/null
 
 
 
@@ -198,6 +199,25 @@ echo \
 "*****WARNING: Query bug_proper_pair_different_chrom is not on the same chromosome than his mate. Skipping
 *****WARNING: Query bug_proper_pair_different_chrom is the last read and has no mate. Skip and exit. " > exp
 $BT -i bug_proper_pair_different_chrom.bam > /dev/null 2> obs
+check obs exp
+rm obs exp
+
+
+##################################################################
+#  Test -nsep option
+##################################################################
+echo "    pairedbamtobed12.t13...\c"
+echo \
+"chr1	0	99	proper_pair_plus_strand%%%string1	80	+	0	30	255,0,0	2	30,30	0,69" > exp
+$BT -nsep %%% -i proper_pair_nsep-option.bam > obs
+check obs exp
+rm obs exp
+
+echo "    pairedbamtobed12.t14.stderr...\c"
+echo \
+"*****WARNING: Query proper_pair_plus_strand%%%string1 is not followed by his mate in your BAM file. Skipping
+*****WARNING: Query proper_pair_plus_strand%%%string2 is the last read and has no mate. Skip and exit. " > exp
+$BT -i proper_pair_nsep-option.bam 2> obs
 check obs exp
 rm obs exp
 
