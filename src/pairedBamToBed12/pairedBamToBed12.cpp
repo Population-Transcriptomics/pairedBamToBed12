@@ -37,7 +37,6 @@ using namespace BamTools;
 
 using namespace std;
 
-
 // define our program name
 #define PROGRAM_NAME "pairedBamToBed12"
 
@@ -153,7 +152,7 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
 
 void pairedbamtobed12_help(void) {
 
-    cerr << "\nTool:    pairedBamToBed12" << endl;
+    cerr << "\nTool:    pairedBamToBed12 1.1" << endl;
     cerr << "Summary: Converts 'properly paired' BAM alignments to BED12 format." << endl;
     cerr << "         Typically producing a 2 blocks BED12 entry for each 'properly paired' BAM pair." << endl;
     cerr << "         Additional blocks are produced when an alignment contains long deletion (CIGAR N-op)." << endl;
