@@ -351,7 +351,7 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
 
     // write BED6 portion
     // the score is the sum of the MapQ
-    printf("%s\t%d\t%d\t\%s\t%d\t%s\t",
+    printf("%s\t%d\t%d\t%s\t%d\t%s\t",
             chrom.c_str(),
             alignmentStart,
             alignmentEnd,
