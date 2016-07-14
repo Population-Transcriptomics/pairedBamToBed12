@@ -50,7 +50,7 @@ void pairedbamtobed12_help(void);
 
 void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                              bool trackUnprocessed, const string &unprocessedBamFile,
-                             bool delAsBlock, const string &color);
+                             bool delAsBlock, const string &color, const string &nameSeparator);
 
 void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, 
                       const RefVector &refs, bool delAsBlock, 
@@ -61,6 +61,8 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock,
                      vector<int> &blockEnds, int &alignmentEnd);
 
 void RenameRead(BamAlignment& bam);
+
+string TruncateReadName(string name, string separator);
 
 void SaveRead(const BamAlignment& bam, BamWriter& writer,
               bool trackUnprocessed);
@@ -74,13 +76,13 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
     string bamFile            = "stdin";
     string unprocessedBamFile = "unprocessedPair.bam";
     string color              = "255,0,0";
+    string nameSeparator      = "___";
     
     bool haveBam              = true;
     bool delAsBlock           = false;
     bool trackUnprocessed     = false;
     
     int minMapQuality         = 0;
-
 
     // do some parsing (all of these parameters require 2 strings)
     for(int i = 1; i < argc; i++) {
@@ -103,6 +105,12 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
         else if(PARAMETER_CHECK("-color", 6, parameterLength)) {
             if ((i+1) < argc) {
                 color = argv[i + 1];
+                i++;
+            }
+        }
+        else if(PARAMETER_CHECK("-nsep", 5, parameterLength)) {
+            if ((i+1) < argc) {
+                nameSeparator = argv[i + 1];
                 i++;
             }
         }
@@ -135,7 +143,7 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
     if (!showHelp) {
         ConvertPairedBamToBed12(bamFile, minMapQuality, 
                                 trackUnprocessed, unprocessedBamFile, 
-                                delAsBlock, color);
+                                delAsBlock, color, nameSeparator);
     }
     else {
         pairedbamtobed12_help();
@@ -159,6 +167,9 @@ void pairedbamtobed12_help(void) {
     
     cerr << "\t-color\t"   << "An R,G,B string for the color used with BED12 format." << endl;
     cerr                   << "\t\tDefault is (255,0,0)." << endl << endl;
+
+    cerr << "\t-nsep\t"    << "A string after which the read names are allowed to differ." << endl;
+    cerr                   << "\t\tDefault is ___.  Give an improbable value like 'nothankyou' to turn off." << endl << endl;
     
     cerr << "\t-qual\t"    << "The minimum (inclusive) mapQ sum for reporting the paired BAM into a BED12." << endl;
     cerr                   << "\t\tDefault is (0)." << endl << endl;
@@ -178,7 +189,7 @@ void pairedbamtobed12_help(void) {
 */
 void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                              bool trackUnprocessed, const string &unprocessedBamFile,
-                             bool delAsBlock, const string &color) 
+                             bool delAsBlock, const string &color, const string &nameSeparator) 
 {
     bool lastReadHasMate;
     // open the BAM file
@@ -218,7 +229,7 @@ void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                 continue;
             }
             // check if reads name are similar
-            else if (bam1.Name != bam2.Name) {
+            else if (TruncateReadName(bam1.Name, nameSeparator) != TruncateReadName(bam2.Name, nameSeparator)) {
                 cerr << "*****WARNING: Query " << bam1.Name 
                      << " is not followed by his mate in your BAM file. Skipping" << endl;
                 SaveRead(bam1, writer, trackUnprocessed);
@@ -317,15 +328,16 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
 
     
     // set the strand
+    // use the name of the first mate
     string strand = "+";
+    string name = "";
     if (bam1.IsFirstMate()) {
         if (bam1.IsReverseStrand()) strand = "-";
+        name = bam1.Name;
     } else {
         if (bam2.IsReverseStrand()) strand = "-";
+        name = bam2.Name;
     }
-
-    // set the name of the BED12
-    string name = bam1.Name;
 
     // parse the CIGAR string and figure out the alignment blocks
     unsigned int bam1_alignmentEnd;
@@ -394,6 +406,11 @@ void RenameRead(BamAlignment& bam) {
 
     if (bam.Name.at(bam.Name.length() - 2) == '/')
         bam.Name = bam.Name.substr(0, bam.Name.length() - 2);
+}
+    
+// Accessory function to make name comparison more readable.
+string TruncateReadName(string name, string separator) {
+    return name.substr(0, name.find(separator));
 }
 
 void SaveRead(const BamAlignment& bam, BamWriter& writer,
