@@ -43,6 +43,8 @@ Option          Description
                 short deletion from reference (CIGAR D-op).
 **-color**      An R,G,B string for the color used with BED12 format. Default 
                 is (255,0,0).
+**-nsep**       A string after which the read names are allowed to differ.
+                Default is ___.  Give an improbable value like 'nothankyou' to turn off.
 **-qual**       The minimum (inclusive) mapQ sum for reporting
                 the paired BAM into a BED12. Default is 0.
 **-x**          Optional filename where unprocessed mapped pairs can be stored.
