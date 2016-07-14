@@ -20,18 +20,11 @@ samtools view -Sb pair-and-missingmate.sam > pair-and-missingmate.bam 2>/dev/nul
 samtools view -Sb missingmate-and-pair.sam > missingmate-and-pair.bam 2>/dev/null
 samtools view -Sb pair-with-name-containing-slash.sam > pair-with-name-containing-slash.bam 2>/dev/null
 samtools view -Sb proper_pair_plus_strand.sam > proper_pair_plus_strand.bam 2> /dev/null
-samtools view -Sb proper_pair_plus_strand.sam > proper_pair_plus_strand.bam 2> /dev/null
-samtools view -Sb proper_pair_minus_strand.sam > proper_pair_minus_strand.bam 2> /dev/null
 samtools view -Sb proper_pair_minus_strand.sam > proper_pair_minus_strand.bam 2> /dev/null
 samtools view -Sb proper_pair_spliced.sam > proper_pair_spliced.bam 2> /dev/null
-samtools view -Sb proper_pair_spliced.sam > proper_pair_spliced.bam 2> /dev/null
-samtools view -Sb proper_pair_overlap.sam > proper_pair_overlap.bam 2> /dev/null
 samtools view -Sb proper_pair_overlap.sam > proper_pair_overlap.bam 2> /dev/null
 samtools view -Sb proper_pair_bad_mapq.sam > proper_pair_bad_mapq.bam 2> /dev/null
-samtools view -Sb proper_pair_bad_mapq.sam > proper_pair_bad_mapq.bam 2> /dev/null
 samtools view -Sb not_proper_pair.sam > not_proper_pair.bam 2> /dev/null
-samtools view -Sb not_proper_pair.sam > not_proper_pair.bam 2> /dev/null
-samtools view -Sb bug_proper_pair_different_chrom.sam > bug_proper_pair_different_chrom.bam 2> /dev/null
 samtools view -Sb bug_proper_pair_different_chrom.sam > bug_proper_pair_different_chrom.bam 2> /dev/null
 
 
