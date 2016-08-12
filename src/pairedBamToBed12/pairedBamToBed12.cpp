@@ -61,6 +61,8 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock,
 
 void RenameRead(BamAlignment& bam);
 
+void SimpleGCorrection(const BamAlignment& bam, string strand, unsigned int &alignmentStart, unsigned int &alignmentEnd);
+
 string TruncateReadName(string name, string separator);
 
 void SaveRead(const BamAlignment& bam, BamWriter& writer,
@@ -320,6 +322,23 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock, unsigned int
     alignmentEnd = currStart;
 }
 
+void SimpleGCorrection(const BamAlignment& bam, string strand, unsigned int &alignmentStart, unsigned int &alignmentEnd) {
+    string md;
+    bam.GetTag("MD", md);
+    if ( (strand == "+") & (bam.QueryBases.substr(0,1) == "G") )  {
+      md = md.substr(0,2);
+      if (md == "0A" || md == "0C" || md == "0T") {
+        alignmentStart = alignmentStart +1;
+      }
+    }
+    if ((strand == "-") & (bam.QueryBases.substr(bam.QueryBases.length() -1, 1) == "C") ) {
+      md = md.substr(md.length() -2, 2);
+      if (md == "A0" || md == "G0" || md == "T0") {
+        alignmentEnd = alignmentEnd -1;
+      }
+    }
+}
+
 void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const RefVector &refs, bool delAsBlock, string color) {
 
     // set the chrom
@@ -359,6 +378,9 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     unsigned int alignmentEnd;
     alignmentStart = bam1.Position;
     alignmentEnd = alignmentStart + bam2_alignmentEnd;
+
+    // Shift TSS left or right if first base looks like G-addition.
+    SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd);
 
     // write BED6 portion
     // the score is the sum of the MapQ
