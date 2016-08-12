@@ -177,7 +177,7 @@ rm obs exp
 ##################################################################
 echo "Test 14: skip not proper pair (stderr)..."
 echo \
-"*****WARNING: Query not_proper_pair is not followed by his mate in your BAM file. Skipping
+"*****WARNING: Query not_proper_pair is not a proper pair. Skipping
 *****WARNING: Query not_proper_pair is the last read and has no mate. Skip and exit. " > exp
 $BT -i not_proper_pair.bam > /dev/null 2> obs 
 check obs exp

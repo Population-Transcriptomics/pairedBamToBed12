@@ -221,7 +221,7 @@ void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
             // check if reads are properly paired
             if ((!bam1.IsProperPair()) || (!bam2.IsProperPair())){
                 cerr << "*****WARNING: Query " << bam1.Name 
-                     << " is not followed by his mate in your BAM file. Skipping" << endl;
+                     << " is not a proper pair. Skipping" << endl;
                 SaveRead(bam1, writer, trackUnprocessed);
                 lastReadHasMate = false;
                 bam1 = bam2;
