@@ -49,10 +49,10 @@ void pairedbamtobed12_help(void);
 
 void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                              bool trackUnprocessed, const string &unprocessedBamFile,
-                             bool delAsBlock, const string &color, const string &nameSeparator);
+                             bool delAsBlock, bool extraG, const string &color, const string &nameSeparator);
 
 void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, 
-                      const RefVector &refs, bool delAsBlock, 
+                      const RefVector &refs, bool delAsBlock, bool extraG,
                       string color = "255,0,0");
 
 void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock, 
@@ -81,6 +81,7 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
     
     bool haveBam              = true;
     bool delAsBlock           = false;
+    bool extraG               = false;
     bool trackUnprocessed     = false;
     
     int minMapQuality         = 0;
@@ -96,6 +97,9 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
         }
         else if(PARAMETER_CHECK("-dblock", 7, parameterLength)) {
             delAsBlock = true;
+        }
+        else if(PARAMETER_CHECK("-extraG", 7, parameterLength)) {
+            extraG = true;
         }
         else if(PARAMETER_CHECK("-i", 2, parameterLength)) {
             if ((i+1) < argc) {
@@ -144,7 +148,7 @@ int pairedbamtobed12_main(int argc, char* argv[]) {
     if (!showHelp) {
         ConvertPairedBamToBed12(bamFile, minMapQuality, 
                                 trackUnprocessed, unprocessedBamFile, 
-                                delAsBlock, color, nameSeparator);
+                                delAsBlock, extraG, color, nameSeparator);
     }
     else {
         pairedbamtobed12_help();
@@ -165,6 +169,8 @@ void pairedbamtobed12_help(void) {
     cerr << "Options: " << endl;
         
     cerr << "\t-dblock\t"  << "Triggers the creation of a new block when an alignment contains short deletion from reference (CIGAR D-op)" << endl << endl;
+    
+    cerr << "\t-extraG\t"  << "Ignore G mismatches on first bases (for use on CAGE alignments with BWA aln)." << endl << endl;
     
     cerr << "\t-color\t"   << "An R,G,B string for the color used with BED12 format." << endl;
     cerr                   << "\t\tDefault is (255,0,0)." << endl << endl;
@@ -190,7 +196,7 @@ void pairedbamtobed12_help(void) {
 */
 void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                              bool trackUnprocessed, const string &unprocessedBamFile,
-                             bool delAsBlock, const string &color, const string &nameSeparator) 
+                             bool delAsBlock, bool extraG, const string &color, const string &nameSeparator) 
 {
     bool lastReadHasMate;
     // open the BAM file
@@ -259,7 +265,7 @@ void ConvertPairedBamToBed12(const string &bamFile, int minMapQuality,
                 swap(bam1, bam2);
             }
             
-            PrintPairedBed12(bam1, bam2, refs, delAsBlock, color);
+            PrintPairedBed12(bam1, bam2, refs, delAsBlock, extraG, color);
             break;
         } //end while2
 
@@ -339,7 +345,7 @@ void SimpleGCorrection(const BamAlignment& bam, string strand, unsigned int &ali
     }
 }
 
-void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const RefVector &refs, bool delAsBlock, string color) {
+void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const RefVector &refs, bool delAsBlock, bool extraG, string color) {
 
     // set the chrom
     string chrom = refs.at(bam1.RefID).RefName;
@@ -380,7 +386,7 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     alignmentEnd = alignmentStart + bam2_alignmentEnd;
 
     // Shift TSS left or right if first base looks like G-addition.
-    SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd);
+    if (extraG) SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd);
 
     // write BED6 portion
     // the score is the sum of the MapQ
