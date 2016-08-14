@@ -351,16 +351,17 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     // set the chrom
     string chrom = refs.at(bam1.RefID).RefName;
 
-    
-    // set the strand
-    // use the name of the first mate
+    // Get the name and strand of the first mate.
+    // Since bam1 and bam2 are proper pairs, and since they are sorted by
+    // position (see the `swap` comand above), we are sure that bam1 is on
+    // the plus strand and bam2 on the minus strand.
+
     string strand = "+";
     string name = "";
     if (bam1.IsFirstMate()) {
-        if (bam1.IsReverseStrand()) strand = "-";
         name = bam1.Name;
     } else {
-        if (bam2.IsReverseStrand()) strand = "-";
+        strand = "-";
         name = bam2.Name;
     }
 
