@@ -62,7 +62,13 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock,
 
 void RenameRead(BamAlignment& bam);
 
-void SimpleGCorrection(const BamAlignment& bam, string strand, unsigned int &alignmentStart, unsigned int &alignmentEnd);
+void SimpleGCorrection(const BamAlignment& bam, const string strand,
+                       unsigned int& alignmentStart, unsigned int& alignmentEnd,
+                       vector<int>& blockLengths, vector<int>& blockStarts);
+string FirstBase(const BamAlignment& bam);
+string LastBase( const BamAlignment& bam);
+void CutOneLeft( unsigned int& alignmentStart, vector<int>& blockLengths, vector<int>& blockStarts);
+void CutOneRight(unsigned int& alignmentEnd,   vector<int>& blockLengths);
 
 string TruncateReadName(string name, string separator);
 
@@ -329,21 +335,37 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock, unsigned int
     alignmentEnd = currStart;
 }
 
-void SimpleGCorrection(const BamAlignment& bam, string strand, unsigned int &alignmentStart, unsigned int &alignmentEnd) {
+void SimpleGCorrection(const BamAlignment& bam, const string strand,
+                       unsigned int& alignmentStart, unsigned int& alignmentEnd,
+                       vector<int>& blockLengths, vector<int>& blockStarts) {
     string md;
     bam.GetTag("MD", md);
-    if ( (strand == "+") & (bam.QueryBases.substr(0,1) == "G") )  {
-      md = md.substr(0,2);
-      if (md == "0A" || md == "0C" || md == "0T") {
-        alignmentStart = alignmentStart +1;
-      }
+    if ( (strand == "+") & (FirstBase(bam) == "G") )  {
+        md = md.substr(0,2);
+        if (md == "0A" || md == "0C" || md == "0T")
+            CutOneLeft(alignmentStart, blockLengths, blockStarts);
     }
-    if ((strand == "-") & (bam.QueryBases.substr(bam.QueryBases.length() -1, 1) == "C") ) {
-      md = md.substr(md.length() -2, 2);
-      if (md == "A0" || md == "G0" || md == "T0") {
-        alignmentEnd = alignmentEnd -1;
-      }
+    if ( (strand == "-") & (LastBase(bam) == "C") ) {
+        md = md.substr(md.length() -2, 2);
+        if (md == "A0" || md == "G0" || md == "T0")
+            CutOneRight(alignmentEnd, blockLengths);
     }
+}
+
+string FirstBase(const BamAlignment& bam) {return bam.QueryBases.substr(0,1);}
+string LastBase( const BamAlignment& bam) {return bam.QueryBases.substr(bam.QueryBases.length() -1, 1);}
+
+void CutOneLeft( unsigned int& alignmentStart, vector<int>& blockLengths, vector<int>& blockStarts) {
+    alignmentStart = alignmentStart +1;
+    blockLengths.front() = blockLengths.front() - 1;
+    for(unsigned int i=0; i < blockStarts.size(); i++)
+        blockStarts[i]--;
+    blockStarts.front() = 0;
+}
+
+void CutOneRight(unsigned int& alignmentEnd, vector<int>& blockLengths) {
+    alignmentEnd = alignmentEnd -1;
+    blockLengths.back() = blockLengths.back() -1;
 }
 
 void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const RefVector &refs, bool delAsBlock, bool extraG, string color) {
@@ -388,7 +410,7 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     alignmentEnd = alignmentStart + bam2_alignmentEnd;
 
     // Shift TSS left or right if first base looks like G-addition.
-    if (extraG) SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd);
+    if (extraG) SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd, blockLengths, blockStarts);
 
     // write BED6 portion
     // the score is the sum of the MapQ
@@ -403,7 +425,8 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     // write the remaining BED12 fields
     // write the txStart / txEnd mark the extend of the 5'read block(s)
     if (bam1.IsFirstMate()) {
-        printf("%d\t%d\t", bam1.Position, bam1.Position + bam1_alignmentEnd);
+        printf("%d\t%d\t", alignmentStart, bam1.Position + bam1_alignmentEnd);
+        // Note: alignmentStart may be changed by SimppleGCorrection, but not bam1.Position
     } else {
         printf("%d\t%d\t", bam2.Position, alignmentEnd);
     }
