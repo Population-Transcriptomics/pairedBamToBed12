@@ -138,7 +138,7 @@ rm obs exp
 echo "Test 9a: proper pair on the plus strand, with extraG handling..."
 echo \
 "chr1	0	99	proper_pair_plus_strand_no_mismatch	80	+	0	30	255,0,0	2	30,30	0,69
-chr2	1	99	proper_pair_plus_strand_with_extra_G	80	+	0	30	255,0,0	2	30,30	0,69
+chr2	1	99	proper_pair_plus_strand_with_extra_G	80	+	1	30	255,0,0	2	29,30	0,68
 chr3	0	99	proper_pair_plus_strand_other_mismatch1	80	+	0	30	255,0,0	2	30,30	0,69
 chr3	0	99	proper_pair_plus_strand_other_mismatch2	80	+	0	30	255,0,0	2	30,30	0,69" > exp
 $BT -extraG -i proper_pair_plus_strand.bam > obs
@@ -148,7 +148,7 @@ rm obs exp
 echo "Test 9b: proper pair on the minus strand, with extraG handling..."
 echo \
 "chr1	0	99	proper_pair_minus_strand_no_mismatch	80	-	69	99	255,0,0	2	30,30	0,69
-chr2	0	98	proper_pair_minus_strand_with_extra_G	80	-	69	98	255,0,0	2	30,30	0,69
+chr2	0	98	proper_pair_minus_strand_with_extra_G	80	-	69	98	255,0,0	2	30,29	0,69
 chr3	0	99	proper_pair_minus_strand_with_extra_C	80	-	69	99	255,0,0	2	30,30	0,69
 chr4	0	99	proper_pair_minus_strand_other_mismatch	80	-	69	99	255,0,0	2	30,30	0,69" > exp
 $BT -extraG -i proper_pair_minus_strand.bam > obs

@@ -62,7 +62,7 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock,
 
 void RenameRead(BamAlignment& bam);
 
-void SimpleGCorrection(const BamAlignment& bam, const string strand,
+void SimpleGCorrection(const BamAlignment& bam1, const BamAlignment& bam2, const string strand,
                        unsigned int& alignmentStart, unsigned int& alignmentEnd,
                        vector<int>& blockLengths, vector<int>& blockStarts);
 string FirstBase(const BamAlignment& bam);
@@ -335,17 +335,18 @@ void ParseCigarBed12(const vector<CigarOp> &cigar, bool delAsBlock, unsigned int
     alignmentEnd = currStart;
 }
 
-void SimpleGCorrection(const BamAlignment& bam, const string strand,
+void SimpleGCorrection(const BamAlignment& bam1, const BamAlignment& bam2, const string strand,
                        unsigned int& alignmentStart, unsigned int& alignmentEnd,
                        vector<int>& blockLengths, vector<int>& blockStarts) {
     string md;
-    bam.GetTag("MD", md);
-    if ( (strand == "+") & (FirstBase(bam) == "G") )  {
+    if ( (strand == "+") & (FirstBase(bam1) == "G") )  {
+        bam1.GetTag("MD", md);
         md = md.substr(0,2);
         if (md == "0A" || md == "0C" || md == "0T")
             CutOneLeft(alignmentStart, blockLengths, blockStarts);
     }
-    if ( (strand == "-") & (LastBase(bam) == "C") ) {
+    if ( (strand == "-") & (LastBase(bam2) == "C") ) {
+        bam2.GetTag("MD", md);
         md = md.substr(md.length() -2, 2);
         if (md == "A0" || md == "G0" || md == "T0")
             CutOneRight(alignmentEnd, blockLengths);
@@ -410,7 +411,7 @@ void PrintPairedBed12(const BamAlignment &bam1, const BamAlignment &bam2, const 
     alignmentEnd = alignmentStart + bam2_alignmentEnd;
 
     // Shift TSS left or right if first base looks like G-addition.
-    if (extraG) SimpleGCorrection(bam1, strand, alignmentStart, alignmentEnd, blockLengths, blockStarts);
+    if (extraG) SimpleGCorrection(bam1, bam2, strand, alignmentStart, alignmentEnd, blockLengths, blockStarts);
 
     // write BED6 portion
     // the score is the sum of the MapQ
