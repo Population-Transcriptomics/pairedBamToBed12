@@ -1,9 +1,10 @@
 /*****************************************************************************
   pairedBamToBed12.cpp
 
-  2014 - Nicolas Bertin and Mickaël Mendez
+  2014      - Nicolas Bertin <nbertin@gsc.riken.jp> and
+            - Mickaël Mendez <mickael.mendez@riken.jp>
+  2015-2016 - Charles Plessy <plessy@riken.jp>
   CLST-DGT RIKEN Yokohama
-  nbertin@gsc.riken.jp, mickael.mendez@riken.jp
 
   This work was supported by a research grant from the Japanese Ministry of
   Education, Culture, Sports, Science and Technology (MEXT) for the RIKEN Omics
