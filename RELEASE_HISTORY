@@ -1,3 +1,8 @@
+Version 1.2 (August 15th, 2015, codename chassé-croisé)
+
+Added an experimental -extraG option to correct for G-mismatches on the first
+base, found in CAGE libraries.
+
 Version 1.1 (July 14th, 2016, codename Cocorico!)
 
 Added a -nsep option to only compare read names up to a common separator
