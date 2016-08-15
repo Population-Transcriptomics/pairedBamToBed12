@@ -82,6 +82,6 @@ clean:
 .PHONY: clean
 
 test: all
-	@cd test; bash test.sh
+	@cd test/pairedbamtobed12; bash test-pairedbamtobed12.sh
 
 .PHONY: test

@@ -1,11 +1,15 @@
 BT=${BT-../../bin/pairedBamToBed12}
 
+SUCCESS=0
+FAILURES=0
 check()
 {
 	if diff $1 $2; then
-    	echo ok
+    		echo ok
+		SUCCESS=$((SUCCESS + 1))
 	else
-    	echo fail
+    		echo fail
+		FAILURES=$((FAILURES +1))
 	fi
 }
 
@@ -250,5 +254,13 @@ $BT -i proper_pair_nsep-option.bam 2> obs
 check obs exp
 rm obs exp
 
+echo "$SUCCESS success(es) and $FAILURES failure(s)."
 
 rm *.bam
+
+if [ $FAILURES -eq 0 ]
+then
+	exit 0
+else
+	exit 1
+fi
