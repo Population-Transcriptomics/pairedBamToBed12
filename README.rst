@@ -108,9 +108,11 @@ expression histograms.
     1-base shifts of some TSS peaks.  From version 1.2, ``pairedBamToBed12``
     provides an experimental option, ``-extraG`` to shift the start or end
     (according to the strand) of the output of one base when a G mismatch
-    is detected on the first base of Read1.  This is a very naive implementation
-    and a more detailed description of the problem may be found in the supplemental
-    material of the FANTOM3_ paper.  Thus, the ``-extraG`` option available here is
+    is detected on the first base of Read1.  A more detailed description of
+    the problem may be found in the supplemental material of the FANTOM3_ paper.
+    The implementation here is very naive and incomplete, and was tested only on
+    data produced by BWA's `sampe` command. It relies on the `MD` flag and does
+    not understand clipping.  Thus, the ``-extraG`` option available here is
     not entierly satisfactory and may be removed in the future.  A better
     approach for instance would be to post-process the BAM file instead of
     implementing a correction here.
