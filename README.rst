@@ -43,6 +43,8 @@ Option          Description
                 short deletion from reference (CIGAR D-op).
 **-color**      An R,G,B string for the color used with BED12 format. Default 
                 is (255,0,0).
+**-extraG** 	Ignore G mismatches on first bases (experimental option for use
+                on CAGE alignments with BWA aln).
 **-nsep**       A string after which the read names are allowed to differ.
                 Default is ___.  Give an improbable value like 'nothankyou' to turn off.
 **-qual**       The minimum (inclusive) mapQ sum for reporting
@@ -100,9 +102,23 @@ expression histograms.
     of BWA with SAMtools, using its ``fixmate`` command, that corrects the
     *properly paired* flag since version 1.0.
 
+.. NOTE::
+    CAGE methods sometimes add an extra G at the beginning of the cDNAs (see
+    http://population-transcriptomics.org/nanoCAGE/#extra-G).  This leads to
+    1-base shifts of some TSS peaks.  From version 1.2, ``pairedBamToBed12``
+    provides an experimental option, ``-extraG`` to shift the start or end
+    (according to the strand) of the output of one base when a G mismatch
+    is detected on the first base of Read1.  This is a very naive implementation
+    and a more detailed description of the problem may be found in the supplemental
+    material of the FANTOM3_ paper.  Thus, the ``-extraG`` option available here is
+    not entierly satisfactory and may be removed in the future.  A better
+    approach for instance would be to post-process the BAM file instead of
+    implementing a correction here.
+
 .. _CAGEscan:               http://dx.doi.org/10.1038/nmeth.1470
 .. _`Kratz et al., 2014`: http://dx.doi.org/10.1101/gr.164095.113
 .. _Zenbu:                  http://fantom.gsc.riken.jp/zenbu/
+.. _FANTOM3:                http://science.sciencemag.org/content/309/5740/1559
 
 ==========================================================================
 Advantages and limitations in comparison with ``bedtools bamtobed``
