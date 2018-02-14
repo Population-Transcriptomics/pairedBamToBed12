@@ -21,8 +21,18 @@ file must be grouped/sorted by query name (not alignment position).
 Installation
 ==========================================================================
 
-Type `make` and a ``pairedBamToBed12`` executable file will appear the ``bin``
-directory.  Test it with `make test`.
+In brief: download the source code, unpack it and enter the main source
+directory, type ``make`` and a ``pairedBamToBed12`` executable file will appear
+the ``bin`` directory.  Test it with ``make test``.  See below for an example.
+
+.. code-block::
+
+    wget https://github.com/Population-Transcriptomics/pairedBamToBed12/archive/pairedbamtobed12.zip
+    unzip pairedbamtobed12.zip
+    cd pairedBamToBed12-pairedbamtobed12
+    make
+    make test
+    ls bin/pairedBamToBed12
 
 ==========================================================================
 Usage and option summary
