@@ -18,6 +18,16 @@ file must be grouped/sorted by query name (not alignment position).
     The pair: >>>>>>>>>>>>------>>>>>>>>>>>>>----->>>>>>>
 
 ==========================================================================
+Rationale
+==========================================================================
+
+We developped ``pairedBamToBed12`` in order to represent a paired alignment
+on a sigle line, with splicing information.  The existing tools did not provide
+both features at the same time: ``bedtools bamtobed -split`` represents each
+read on separate lines and, ``bedtools bamtobed -bedpe`` does not represent
+spliced alignments.
+
+==========================================================================
 Installation
 ==========================================================================
 
@@ -133,16 +143,15 @@ expression histograms.
 .. _FANTOM3:                http://science.sciencemag.org/content/309/5740/1559
 
 ==========================================================================
-Advantages and limitations in comparison with ``bedtools bamtobed``
+Bugs and limitations
 ==========================================================================
 
-The advantage compared to ``bedtools bamtobed -split`` is that ``pairedBamToBed12``
-reports the whole pair on a single line, and the advantage compared with
-``bedtools bamtobed -bedpe``, is that it reports spliced alignments.
+``pairedbamtobed12`` only pertains to pairs mapped on the same chromosome
+and is therefore unfit for representing gene fusions or interchromosomal
+interactions.
 
-The limitation of ``pairedbamtobed12`` is that it only pertains to pairs mapped
-on the same chromosome and is therefore unfit for representing gene fusions or
-interchromosomal interactions.
+At the moment, ``pairedbamtobed12`` will output broken BED12 files if Read1
+and Read2 overlap and align to the same splice junction.
 
 ==========================================================================
 Copyright, authorship and license
