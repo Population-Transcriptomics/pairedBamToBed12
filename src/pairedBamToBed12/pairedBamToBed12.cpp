@@ -40,7 +40,7 @@ using namespace std;
 
 // define our program name and version
 #define PROGRAM_NAME "pairedBamToBed12"
-#define PROGRAM_VERSION "1.2"
+#define PROGRAM_VERSION "1.2.1"
 
 // define our parameter checking macro
 #define PARAMETER_CHECK(param, paramLen, actualLen) (strncmp(argv[i], param, min(actualLen, paramLen))== 0) && (actualLen == paramLen)
