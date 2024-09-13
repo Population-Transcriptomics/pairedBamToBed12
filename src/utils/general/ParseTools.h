@@ -36,7 +36,7 @@ template<class T>
 void int2str(int number, T& buffer, bool appendToBuf = false)
 {
 
-	register int useNum = number;
+	int useNum = number;
 	if (useNum == 0) {
 		if (appendToBuf) {
 			buffer.append("0");
@@ -52,7 +52,7 @@ void int2str(int number, T& buffer, bool appendToBuf = false)
 	}
 
 	//figure out how many digits we have
-	register int power = 10;
+	int power = 10;
 	int numChars = 2 + (isNegative ? 1: 0);
 	while (power  <= useNum) {
 		power *= 10;
@@ -67,7 +67,7 @@ void int2str(int number, T& buffer, bool appendToBuf = false)
 		tmpBuf[0] = '-';
 		bufIdx = 1;
 	}
-	register int currDig=0;
+	int currDig=0;
 
 	power /= 10;
 	while (power) {

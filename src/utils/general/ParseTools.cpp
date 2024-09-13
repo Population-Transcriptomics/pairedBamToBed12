@@ -27,7 +27,7 @@ int str2chrPos(const char *str, size_t ulen) {
 		return INT_MIN; //can't do more than 9 digits and a minus sign
 	}
 
-	register int sum=0;
+	int sum=0;
 	int startPos =0;
 	bool isNegative = false;
 
